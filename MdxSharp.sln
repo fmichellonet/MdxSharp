@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdxSharp", "MdxSharp\MdxSharp.csproj", "{C9B681DE-27DA-4C82-9EC5-F7112087B747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdxSharp.Tests", "MdxSharp.Tests\MdxSharp.Tests.csproj", "{6BA91FEF-5C78-49BE-8E38-A6A187833A90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9B681DE-27DA-4C82-9EC5-F7112087B747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9B681DE-27DA-4C82-9EC5-F7112087B747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9B681DE-27DA-4C82-9EC5-F7112087B747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9B681DE-27DA-4C82-9EC5-F7112087B747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA91FEF-5C78-49BE-8E38-A6A187833A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA91FEF-5C78-49BE-8E38-A6A187833A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA91FEF-5C78-49BE-8E38-A6A187833A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA91FEF-5C78-49BE-8E38-A6A187833A90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
