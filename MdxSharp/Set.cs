@@ -34,9 +34,4 @@ namespace MdxSharp
             return $"{{ {string.Join(", ", _members.Select(x => x.ToMdx()))} }}";
         }
     }
-
-    public interface IMdxStatement
-    {
-        string ToMdx();
-    }
 }

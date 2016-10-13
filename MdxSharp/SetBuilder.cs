@@ -49,11 +49,11 @@ namespace MdxSharp
             {
                 var childXpr = (MemberExpression)mExpr.Expression;
                 ReduceSet(childXpr, out name);
-                name += $".[{GetMemberName(mExpr.Member)}]";
+                name += $".{GetMemberName(mExpr.Member)}";
             }
             if (mExpr.Expression.NodeType == ExpressionType.Parameter)
             {
-                name = $"[{mExpr.Member.Name}]";
+                name = $"{GetMemberName(mExpr.Member)}";
             }
         }
 
