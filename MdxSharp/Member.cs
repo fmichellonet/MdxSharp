@@ -15,9 +15,4 @@
             return $"{Name}";
         }
     } 
-
-    //public class Member<T>
-    //{
-        
-    //}
 }

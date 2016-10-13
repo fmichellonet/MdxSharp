@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="AdomdConnectionExtensions.cs" />
     <Compile Include="Dimension.cs" />
+    <Compile Include="Hierarchy.cs" />
+    <Compile Include="IMdxStatement.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query.cs" />
