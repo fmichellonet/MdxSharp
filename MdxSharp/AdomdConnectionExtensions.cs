@@ -8,7 +8,7 @@ namespace MdxSharp
         public static Query<TDef> Query<TDef>(this AdomdConnection cnx) 
             where TDef : class
         {
-            return new Query<TDef>(cnx, null, null);
+            return new Query<TDef>(cnx, null, null, null);
         }
     }
 }

@@ -11,12 +11,14 @@ namespace MdxSharp
 
         private readonly Set _rows;
         private readonly Set _columns;
+        private readonly Tuple _where;
 
-        internal Query(AdomdConnection cnx, Set rows, Set columns)
+        internal Query(AdomdConnection cnx, Set rows, Set columns, Tuple where)
         {
             _cnx = cnx;
             _rows = rows;
             _columns = columns;
+            _where = where;
         }
 
         public CellSet Execute()
@@ -29,17 +31,27 @@ namespace MdxSharp
         }
 
         public Query<T> OnColumns<TSet>(Expression<Func<T, TSet>> columnSelector)
+            where TSet : Set
         {
             var expr = columnSelector.Body;
             var columns = SetBuilder.Build(expr);
-            return new Query<T>(_cnx, _rows, columns);
+            return new Query<T>(_cnx, _rows, columns, _where);
         }
 
         public Query<T> OnRows<TSet>(Expression<Func<T, TSet>> rowSelector)
+            where TSet : Set
         {
             var expr = rowSelector.Body;
             var rows = SetBuilder.Build(expr);
-            return new Query<T>(_cnx, rows, _columns);
+            return new Query<T>(_cnx, rows, _columns, _where);
+        }
+
+        public Query<T> Where<TTuple>(Expression<Func<T, TTuple>> whereSelector)
+            where TTuple : Tuple
+        {
+            var expr = whereSelector.Body;
+            var where = TupleBuilder.Build(expr);
+            return new Query<T>(_cnx, _rows, _columns, where);
         }
 
         private string BuildQuery()
@@ -53,6 +65,10 @@ namespace MdxSharp
                 qry += $", {_rows.ToMdx()} ON ROWS";
             }
             qry += $" FROM {cubeName}";
+            if (_where != null)
+            {
+                qry += $" WHERE {_where.ToMdx()}";
+            }
             return qry;
         }
 

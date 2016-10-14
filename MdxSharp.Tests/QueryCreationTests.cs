@@ -27,7 +27,7 @@ namespace MdxSharp.Tests
 
             var cnx = new AdomdConnection(cnxString);
             cnx.Query<MyCubeDef>()
-               .OnColumns(x => x.Measures.InternetOrderCount)
+               .OnColumns(x => new Set(x.Measures.InternetOrderCount))
                .ToString()
                .Should().ContainEquivalentOf(expected);
         }
@@ -51,8 +51,21 @@ namespace MdxSharp.Tests
 
             var cnx = new AdomdConnection(cnxString);
             cnx.Query<MyCubeDef>()
-               .OnColumns(x => x.Measures.InternetOrderCount)
-               .OnRows(x => x.Customer.StateProvince.NewYork)
+               .OnColumns(x => new Set(x.Measures.InternetOrderCount))
+               .OnRows(x => new Set(x.Customer.StateProvince.NewYork))
+               .ToString()
+               .Should().ContainEquivalentOf(expected);
+        }
+
+        [Test]
+        public void CanCreateWhereQuery()
+        {
+            string expected = "SELECT { [measures].[Internet Order Count] } ON COLUMNS FROM [Adventure Works] WHERE ( [Customer].[State-Province].&[NY]&[US] )";
+
+            var cnx = new AdomdConnection(cnxString);
+            cnx.Query<MyCubeDef>()
+               .OnColumns(x => new Set(x.Measures.InternetOrderCount))
+               .Where(x => new Tuple(x.Customer.StateProvince.NewYork))
                .ToString()
                .Should().ContainEquivalentOf(expected);
         }

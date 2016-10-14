@@ -14,5 +14,18 @@
         {
             return $"{Name}";
         }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Member))
+                return false;
+            Member other = (Member) obj;
+            return this.Name.Equals(other.Name);
+        }
     } 
 }

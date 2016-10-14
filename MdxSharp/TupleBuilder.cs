@@ -4,64 +4,65 @@ using System.Linq.Expressions;
 
 namespace MdxSharp
 {
-    internal class SetBuilder
+    internal class TupleBuilder
     {
-        public static Set Build(Expression expr)
+        
+        public static Tuple Build(Expression expr)
         {
             switch (expr.NodeType)
             {
                 case ExpressionType.MemberAccess:
                     var name = Mapper.Reduce(expr as MemberExpression);
-                    return new Set(new Member(name));
+                    return new Tuple(new Member(name));
 
                 case ExpressionType.New:
-                    var ctor = (NewExpression) expr;
-                    if (ctor.Type == typeof(Set))
+                    var ctor = (NewExpression)expr;
+                    if (ctor.Type == typeof(Tuple))
                     {
                         switch (ctor.Arguments.First().NodeType)
                         {
-                            // Build set from member[] initializer
+                            // Build tuple from member[] initializer
                             case ExpressionType.NewArrayInit:
-                                return BuildSetFromArray(ctor);
+                                return BuildTupleFromArray(ctor);
 
-                            // Build set with constructor taking 1 member
+                            // Build tuple with constructor taking 1 member
                             case ExpressionType.MemberAccess:
-                                return BuildSetWithOneMember(ctor);
+                                return BuildTupleWithOneMember(ctor);
 
                             default:
-                                throw new NotImplementedException($"Cannot build a set with {expr}");
+                                throw new NotImplementedException($"Cannot build a tuple with {expr}");
                         }
                     }
-                    throw new NotImplementedException($"Cannot build a set from {expr.Type}");
+                    throw new NotImplementedException($"Cannot build a tuple from {expr.Type}");
                 default:
                     throw new NotImplementedException($"{expr.NodeType} is not implemented ");
             }
         }
 
-        private static Set BuildSetFromArray(NewExpression expr)
+        private static Tuple BuildTupleFromArray(NewExpression expr)
         {
-            Set s = Set.Empty();
+            Tuple t = Tuple.Empty();
             if (expr.Arguments.Any())
             {
                 var arrayExpr = expr.Arguments.First() as NewArrayExpression;
 
                 foreach (var itemExpr in arrayExpr.Expressions)
                 {
-                    s = s.Union(Build(itemExpr));
+                    t = t.Union(Build(itemExpr));
                 }
             }
             else
             {
-                throw new NotImplementedException($"Cannot build a set with {expr}");
+                throw new NotImplementedException($"Cannot build a tuple with {expr}");
             }
-            return s;
+            return t;
         }
 
-        private static Set BuildSetWithOneMember(NewExpression ctor)
+        private static Tuple BuildTupleWithOneMember(NewExpression ctor)
         {
             if (ctor.Arguments.Count != 1)
             {
-                throw new NotImplementedException($"Cannot build a set with {ctor}");
+                throw new NotImplementedException($"Cannot build a tuple with {ctor}");
             }
             else
             {
