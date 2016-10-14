@@ -5,16 +5,16 @@ namespace MdxSharp
 {
     public class Tuple : IMdxStatement
     {
-        private readonly IEnumerable<Member> _members;
+        private readonly HashSet<Member> _members;
 
         public Tuple(Member member)
         {
-            _members = new HashSet<Member>(new[] {member});
+            _members = new HashSet<Member>(new[] {member}, new MemberComparer());
         }
 
         public Tuple(IEnumerable<Member> members)
         {
-            _members = new HashSet<Member>(members);
+            _members = new HashSet<Member>(members, new MemberComparer());
         }
 
         public IEnumerable<Member> Members => _members;
@@ -32,6 +32,18 @@ namespace MdxSharp
         public string ToMdx()
         {
             return $"( {string.Join(", ", _members.Select(x => x.ToMdx()))} )";
+        }
+
+        private class MemberComparer : IEqualityComparer<Member> {
+            public bool Equals(Member x, Member y)
+            {
+                return x?.Name?.Equals(y?.Name) ?? false;
+            }
+
+            public int GetHashCode(Member m)
+            {
+                return m.Name.GetHashCode();
+            }
         }
     }
 }
