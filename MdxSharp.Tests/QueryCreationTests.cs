@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MdxSharp.Tests.Model.AdventureWorks;
 using Microsoft.AnalysisServices.AdomdClient;
 using NUnit.Framework;
 
@@ -69,33 +70,5 @@ namespace MdxSharp.Tests
                .ToString()
                .Should().ContainEquivalentOf(expected);
         }
-    }
-
-    [UniqueName("[Adventure Works]")]
-    public class MyCubeDef
-    {
-        [UniqueName("[measures]")]
-        public Measures Measures { get; }
-
-        [UniqueName("[Customer]")]
-        public Customer Customer { get; }
-    }
-
-    public class Measures : Dimension
-    {
-        [UniqueName("[Internet Order Count]")]
-        public Member InternetOrderCount { get; }
-    }
-
-    public class Customer : Dimension
-    {
-        [UniqueName("[State-Province]")]
-        public StateProvince StateProvince { get; }
-    }
-
-    public class StateProvince : Hierarchy
-    {
-        [UniqueName("&[NY]&[US]")]
-        public Member NewYork { get; }
     }
 }

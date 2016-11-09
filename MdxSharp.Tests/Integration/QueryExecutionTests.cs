@@ -1,4 +1,5 @@
-﻿using Microsoft.AnalysisServices.AdomdClient;
+﻿using MdxSharp.Tests.Model.AdventureWorks;
+using Microsoft.AnalysisServices.AdomdClient;
 using NUnit.Framework;
 
 namespace MdxSharp.Tests.Integration

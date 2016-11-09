@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection;
 using Microsoft.AnalysisServices.AdomdClient;
 
 namespace MdxSharp
@@ -30,6 +30,13 @@ namespace MdxSharp
             }
         }
 
+        public IEnumerable<TResult> Execute<TResult>()
+            where TResult : new()
+        {
+            var cset = Execute();
+            return Materializer<TResult>.Bake(cset);
+        }
+
         public Query<T> OnColumns<TSet>(Expression<Func<T, TSet>> columnSelector)
             where TSet : Set
         {
@@ -56,7 +63,7 @@ namespace MdxSharp
 
         private string BuildQuery()
         {
-            var cubeName = MdxHelper.NormalizeCubeName(GetCubeName(typeof(T)));
+            var cubeName = typeof(T).GetUniqueNameOrDefault();
 
             var columns = _columns?.ToMdx() ?? "{ [Measures].defaultmember }";
             var qry = $"SELECT {columns} ON COLUMNS";
@@ -72,32 +79,9 @@ namespace MdxSharp
             return qry;
         }
 
-        private string GetCubeName(Type t)
-        {
-            var attr = t.GetCustomAttribute<UniqueNameAttribute>();
-            return attr == null ? t.Name : attr.Name;
-        }
-
-        
-
         public override string ToString()
         {
             return BuildQuery();
-        }
-    }
-
-    public static class MdxHelper
-    {
-        public static string NormalizeCubeName(string name)
-        {
-            if (name.Trim().StartsWith("[") && name.Trim().StartsWith("]"))
-            {
-                return name.Trim();
-            }
-            else
-            {
-                return $"{name.Trim()}";
-            }
         }
     }
 }

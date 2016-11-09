@@ -48,7 +48,9 @@
     <Compile Include="Dimension.cs" />
     <Compile Include="Hierarchy.cs" />
     <Compile Include="IMdxStatement.cs" />
+    <Compile Include="LevelNameAttribute.cs" />
     <Compile Include="Mapper.cs" />
+    <Compile Include="Materializer.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Set.cs" />
     <Compile Include="SetBuilder.cs" />
     <Compile Include="TupleBuilder.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="UniqueNameAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

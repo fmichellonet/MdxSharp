@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace MdxSharp
 {
@@ -10,21 +9,15 @@ namespace MdxSharp
         {
             if (mExpr.Expression.NodeType == ExpressionType.MemberAccess)
             {
-                var childXpr = (MemberExpression)mExpr.Expression;
+                var childXpr = (MemberExpression) mExpr.Expression;
                 var name = Reduce(childXpr);
-                return $"{name}.{GetUniqueName(mExpr.Member)}";
+                return $"{name}.{mExpr.Member.GetUniqueNameOrDefault()}";
             }
             if (mExpr.Expression.NodeType == ExpressionType.Parameter)
             {
-                return $"{GetUniqueName(mExpr.Member)}";
+                return $"{mExpr.Member.GetUniqueNameOrDefault()}";
             }
             throw new InvalidOperationException($"Cannot reduce tuple for expression {mExpr}");
-        }
-
-        private static string GetUniqueName(MemberInfo t)
-        {
-            var attr = t.GetCustomAttribute<UniqueNameAttribute>();
-            return attr == null ? t.Name : attr.Name;
         }
     }
 }
